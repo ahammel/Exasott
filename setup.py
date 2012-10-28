@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='Exasott',
+    name='exasott',
     version='0.1.0',
     author='Alex Hammel',
     author_email='ahammel87@gmail.com',
@@ -9,7 +9,7 @@ setup(
     scripts=[],
     url='http://pypi.python.org/pypi/Exasott/',
     license='LICENSE.txt',
-    description='',
+    description='Module for the game of Exasott',
     long_description=open('README.txt').read(),
     install_requires=[ ],
     )
