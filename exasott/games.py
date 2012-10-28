@@ -52,11 +52,14 @@ class Game(object):
 
         return '\n'.join([board_str, red_string, blue_string])
 
-    def remove_stick(self, stick):
+    def sticks_to_move(self):
         if self.red_to_move:
-            stick_set = self.r_sticks
+            return self.r_sticks
         else:
-            stick_set = self.b_sticks
+            return self.b_sticks
+
+    def remove_stick(self, stick):
+        stick_set = self.sticks_to_move()
 
         if not stick in stick_set or stick_set[stick] < 1:
             raise IllegalMoveError("No stick to make move " + str(stick))
@@ -64,14 +67,11 @@ class Game(object):
             stick_set[stick] -= 1
 
     def move(self, token_1, token_2):
+        stick = find_stick(token_1, token_2)
+        self.remove_stick(stick)
+
         t1x, t1y = token_1
         t2x, t2y = token_2
-
-        x_dist = abs(t1x - t2x)
-        y_dist = abs(t1y - t2y)
-        stick = (min(x_dist, y_dist), max(x_dist, y_dist))
-
-        self.remove_stick(stick)
 
         try:
             t1_exists = self.board.get_token(t1x, t1y)
@@ -83,6 +83,18 @@ class Game(object):
             self.board.remove_token(t1x, t1y)
             self.board.remove_token(t2x, t2y)
         else:
-            raise IllegalMoveError(str((t1x, t1y))+str((t2x, t2y)))
+            raise IllegalMoveError(str(token_1)+str(token_2))
 
         self.red_to_move ^= True
+
+
+def find_stick(token_1, token_2):
+    """Returns the stick needed to make a move from token_1 to token_2.
+
+    """
+    t1x, t1y = token_1
+    t2x, t2y = token_2
+
+    x_dist = abs(t1x - t2x)
+    y_dist = abs(t1y - t2y)
+    return (min(x_dist, y_dist), max(x_dist, y_dist))
