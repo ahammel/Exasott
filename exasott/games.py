@@ -9,6 +9,7 @@ class IllegalMoveError(ValueError):
 
     """
 
+
 class Game(object):
     """A game of Exasott.
 
@@ -16,22 +17,40 @@ class Game(object):
     def __init__(self, dimensions=(8, 8), red_sticks=None, blue_sticks=None):
         self.board = boards.Board(dimensions[0], dimensions[1])
 
-
-        standard_sticks = {(0, 1): 1,
-                           (1, 1): 5,
-                           (1, 2): 5,
-                           (1, 3): 5}
         if not red_sticks:
-            self.r_sticks = standard_sticks
+            self.r_sticks = {(0, 1): 1, (1, 1): 5, (1, 2): 5, (1, 3): 5}
         else:
             self.r_sticks = red_sticks
 
         if not blue_sticks:
-            self.b_sticks = standard_sticks
+            self.b_sticks = {(0, 1): 1, (1, 1): 5, (1, 2): 5, (1, 3): 5}
         else:
-            self.b_sticks = red_sticks
+            self.b_sticks = blue_sticks
 
         self.red_to_move = True
+
+    def __str__(self):
+        board_str = str(self.board)
+
+        r_sticks_left = [str(x) + str(y) + ": " + str(self.r_sticks[(x, y)])
+                         for x, y in sorted(self.r_sticks)
+                         if self.r_sticks[(x, y)]]
+
+        b_sticks_left = [str(x) + str(y) + ": " + str(self.b_sticks[(x, y)])
+                         for x, y in sorted(self.b_sticks)
+                         if self.b_sticks[(x, y)]]
+
+        if self.red_to_move:
+            red_string = "*Red  {"
+            blue_string = " Blue {"
+        else:
+            red_string = " Red  {"
+            blue_string = "*Blue {"
+
+        red_string += ", ".join(r_sticks_left) + "}"
+        blue_string += ", ".join(b_sticks_left) + "}"
+
+        return '\n'.join([board_str, red_string, blue_string])
 
     def remove_stick(self, stick):
         if self.red_to_move:
