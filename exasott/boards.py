@@ -22,7 +22,7 @@ class Board(object):
     def __init__(self, cols, rows):
         self.columns = cols
         self.rows = rows
-        self.board = {c: {r: 1 for r in range(rows)} for c in range(cols)}
+        self.board = {(c, r): 1 for c in range(cols) for r in range(rows)}
 
     def __str__(self):
         board_str = " " + string.ascii_uppercase[:self.columns] + "\n"
@@ -43,7 +43,7 @@ class Board(object):
 
         """
         try:
-            return self.board[col][row]
+            return self.board[(col, row)]
         except KeyError:
             bad_index = str((col, row))
             raise BoardRangeError(bad_index)
@@ -53,7 +53,7 @@ class Board(object):
 
         """
         try:
-            token = self.board[col][row]
+            token = self.board[(col, row)]
         except KeyError:
             bad_index = str((col, row))
             raise BoardRangeError(bad_index)
@@ -61,4 +61,4 @@ class Board(object):
         if not token:
             raise MissingTokenError(str((col, row)))
 
-        self.board[col][row] = 0
+        self.board[(col, row)] = 0

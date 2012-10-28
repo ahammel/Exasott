@@ -26,11 +26,6 @@ class SetupBoardTest(object):
 
 
 class TestBoardMethods(SetupBoardTest):
-    def test_init(self):
-        for x in range(8):
-            for y in range(8):
-                assert self.normal_board.board[x][y] == 1
-
     def test_str(self):
         assert str(self.normal_board) == self.normal_board_str
         assert str(self.rectangle_board) == self.rectangle_board_str
