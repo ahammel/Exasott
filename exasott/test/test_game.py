@@ -1,9 +1,11 @@
 from exasott import games
 import pytest
 
+
 class GameTestSetup(object):
     standard_game = games.Game()
     minimum_game = games.Game((2, 2), {(1, 1): 1}, {(1, 1): 1})
+    six_game = games.Game((3, 2), {(1, 1): 3}, {(1, 1): 3})
     standard_sticks = {(0, 1): 1, (1, 1): 5, (1, 2): 5, (1, 3): 5}
 
 
@@ -37,18 +39,19 @@ class TestGameMethods(GameTestSetup):
         assert self.minimum_game.red_to_move
 
     def test_str(self):
-        assert str(self.standard_game) == (" ABCDEFGH\n"
-                                          "1OOOOOOOO\n"
-                                          "2OOOOOOOO\n"
-                                          "3OOOOOOOO\n"
-                                          "4OOOOOOOO\n"
-                                          "5OOOOOOOO\n"
-                                          "6OOOOOOOO\n"
-                                          "7OOOOOOOO\n"
-                                          "8OOOOOOOO\n"
-                                          "\n"
-                                          "*Red  {01: 1, 11: 5, 12: 5, 13: 5}\n"
-                                          " Blue {01: 1, 11: 5, 12: 5, 13: 5}")
+        assert str(self.standard_game) == \
+            (" ABCDEFGH\n"
+             "1OOOOOOOO\n"
+             "2OOOOOOOO\n"
+             "3OOOOOOOO\n"
+             "4OOOOOOOO\n"
+             "5OOOOOOOO\n"
+             "6OOOOOOOO\n"
+             "7OOOOOOOO\n"
+             "8OOOOOOOO\n"
+             "\n"
+             "*Red  {01: 1, 11: 5, 12: 5, 13: 5}\n"
+             " Blue {01: 1, 11: 5, 12: 5, 13: 5}")
 
         self.minimum_game.move((0, 0), (1, 1))
 
@@ -60,7 +63,7 @@ class TestGameMethods(GameTestSetup):
                                           "*Blue {11: 1}")
 
     def test_move(self):
-        self.standard_game.move((0,0), (0,1))
+        self.standard_game.move((0, 0), (0, 1))
         assert not self.standard_game.board.get_token(0, 0)
         assert not self.standard_game.board.get_token(0, 1)
         assert not self.standard_game.red_to_move
@@ -68,15 +71,23 @@ class TestGameMethods(GameTestSetup):
         assert self.standard_game.b_sticks == self.standard_sticks
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((0,0), (0,1))
+            self.standard_game.move((0, 0), (0, 1))
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((2,2), (0,10))
+            self.standard_game.move((2, 2), (0, 10))
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((2,2), (4,4))
+            self.standard_game.move((2, 2), (4, 4))
 
-        self.standard_game.move((2,2), (3,3))
+        self.standard_game.move((2, 2), (3, 3))
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((6,6), (6,7))
+            self.standard_game.move((6, 6), (6, 7))
+
+    def test_legal_moves(self):
+        assert list(self.minimum_game.legal_moves()) == [((0, 1), (1, 0))]
+
+        assert set(self.six_game.legal_moves()) == set([((0, 0), (1, 1)),
+                                                        ((0, 1), (1, 0)),
+                                                        ((1, 0), (2, 1)),
+                                                        ((2, 0), (1, 1))])

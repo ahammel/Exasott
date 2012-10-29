@@ -1,6 +1,7 @@
 """Exasott game classes.
 
 """
+from itertools import combinations
 from exasott import boards
 
 
@@ -83,9 +84,18 @@ class Game(object):
             self.board.remove_token(t1x, t1y)
             self.board.remove_token(t2x, t2y)
         else:
-            raise IllegalMoveError(str(token_1)+str(token_2))
+            raise IllegalMoveError(str(token_1) + str(token_2))
 
         self.red_to_move ^= True
+
+    def legal_moves(self):
+        """Returns a generator of all the legal moves remaining on the board.
+
+        """
+        tokens = [x for x in self.board.board if self.board.board[x]]
+        all_moves = combinations(tokens, 2)
+        return ((x, y) for x, y in list(all_moves)
+                if find_stick(x, y) in self.sticks_to_move())
 
 
 def find_stick(token_1, token_2):

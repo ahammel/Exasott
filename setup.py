@@ -10,6 +10,4 @@ setup(
     url='http://pypi.python.org/pypi/Exasott/',
     license='LICENSE.txt',
     description='Module for the game of Exasott',
-    long_description=open('README.txt').read(),
-    install_requires=[ ],
-    )
+    long_description=open('README.txt').read(),)

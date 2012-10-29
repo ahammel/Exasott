@@ -1,6 +1,7 @@
 """Exasott board classes."""
 import string
 
+
 class BoardRangeError(ValueError):
     """The exception raised when attempting to access a token which is not on
     the board.
@@ -28,11 +29,11 @@ class Board(object):
         board_str = " " + string.ascii_uppercase[:self.columns] + "\n"
 
         for r in range(self.rows):
-            board_str += str(r+1)
+            board_str += str(r + 1)
             for c in range(self.columns):
                 if self.get_token(c, r):
                     board_str += 'O'
-                else:  
+                else:
                     board_str += 'X'
             board_str += '\n'
 

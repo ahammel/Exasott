@@ -1,6 +1,6 @@
 from exasott import boards
 import pytest
-    
+
 
 class SetupBoardTest(object):
     normal_board = boards.Board(8, 8)
@@ -29,7 +29,6 @@ class TestBoardMethods(SetupBoardTest):
     def test_str(self):
         assert str(self.normal_board) == self.normal_board_str
         assert str(self.rectangle_board) == self.rectangle_board_str
-        
 
     def test_get_token(self):
         for x in range(8):

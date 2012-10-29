@@ -1,3 +1,4 @@
 *.pyc
 *.swp
 exasott/__pycache__
+.cache
