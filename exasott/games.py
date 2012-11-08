@@ -54,12 +54,19 @@ class Game(object):
         return '\n'.join([board_str, red_string, blue_string])
 
     def sticks_to_move(self):
+        """Returns the set of sticks of the player who has the move.
+
+        """
         if self.red_to_move:
             return self.r_sticks
         else:
             return self.b_sticks
 
     def remove_stick(self, stick):
+        """Removes the stick from the set of the sticks of the player who has
+        the move.
+
+        """
         stick_set = self.sticks_to_move()
 
         if not stick in stick_set or stick_set[stick] < 1:
@@ -68,6 +75,11 @@ class Game(object):
             stick_set[stick] -= 1
 
     def move(self, token_1, token_2):
+        """Makes a move, removing token_1 and token_2 from the board, raising
+        an illegal move error if the player to move doesn't have the
+        appropriate stick.
+
+        """
         stick = find_stick(token_1, token_2)
         self.remove_stick(stick)
 
@@ -77,8 +89,8 @@ class Game(object):
         try:
             t1_exists = self.board.get_token(t1x, t1y)
             t2_exists = self.board.get_token(t2x, t2y)
-        except boards.BoardRangeError as r:
-            raise IllegalMoveError(r)
+        except boards.BoardRangeError as range_message:
+            raise IllegalMoveError(range_message)
 
         if t1_exists and t2_exists:
             self.board.remove_token(t1x, t1y)

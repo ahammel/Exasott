@@ -1,4 +1,6 @@
-"""Exasott board classes."""
+"""Exasott board classes.
+
+"""
 import string
 
 
@@ -23,15 +25,16 @@ class Board(object):
     def __init__(self, cols, rows):
         self.columns = cols
         self.rows = rows
-        self.board = {(c, r): 1 for c in range(cols) for r in range(rows)}
+        self.board = {(column, row): 1 
+                      for column in range(cols) for row in range(rows)}
 
     def __str__(self):
         board_str = " " + string.ascii_uppercase[:self.columns] + "\n"
 
-        for r in range(self.rows):
-            board_str += str(r + 1)
-            for c in range(self.columns):
-                if self.get_token(c, r):
+        for row in range(self.rows):
+            board_str += str(row + 1)
+            for column in range(self.columns):
+                if self.get_token(column, row):
                     board_str += 'O'
                 else:
                     board_str += 'X'
