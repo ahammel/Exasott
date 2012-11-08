@@ -91,3 +91,12 @@ class TestGameMethods(GameTestSetup):
                                                         ((0, 1), (1, 0)),
                                                         ((1, 0), (2, 1)),
                                                         ((2, 0), (1, 1))])
+
+    def test_winner(self):
+        assert self.standard_game.winner() == None
+        assert self.six_game.winner() == None
+        assert self.minimum_game.winner() == None
+
+        self.minimum_game.move((0, 1), (1, 0))
+
+        assert self.minimum_game.winner() == "blue"

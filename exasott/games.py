@@ -109,6 +109,21 @@ class Game(object):
         return ((x, y) for x, y in list(all_moves)
                 if find_stick(x, y) in self.sticks_to_move())
 
+    def winner(self):
+        """Returns "red" if the first player has won the game, "blue" if the
+        second player has won the game, or None if the game is ongoing.
+        There are no draws in Exasott.
+
+        """
+        try:
+            next(self.legal_moves())
+        except StopIteration:
+            if self.red_to_move:
+                return "blue"
+            else:
+                return "red"
+
+
 
 def find_stick(token_1, token_2):
     """Returns the stick needed to make a move from token_1 to token_2.
