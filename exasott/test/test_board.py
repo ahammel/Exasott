@@ -1,20 +1,16 @@
-from exasott import boards
+"""Unit tests for the exasott.boards module.
+
+"""
+from exasott import boards, test
 import pytest
 
 
 class SetupBoardTest(object):
+    """Shared objects for all exasott.board test classes.
+
+    """
     normal_board = boards.Board(8, 8)
     rectangle_board = boards.Board(2, 6)
-
-    normal_board_str = (" ABCDEFGH\n"
-                        "1OOOOOOOO\n"
-                        "2OOOOOOOO\n"
-                        "3OOOOOOOO\n"
-                        "4OOOOOOOO\n"
-                        "5OOOOOOOO\n"
-                        "6OOOOOOOO\n"
-                        "7OOOOOOOO\n"
-                        "8OOOOOOOO\n")
 
     rectangle_board_str = (" AB\n"
                            "1OO\n"
@@ -26,19 +22,34 @@ class SetupBoardTest(object):
 
 
 class TestBoardMethods(SetupBoardTest):
+    """Unit tests for the Board class's methods.
+
+    """
     def test_str(self):
-        assert str(self.normal_board) == self.normal_board_str
+        """Specifications for Board.__str__
+
+        """
+        assert str(self.normal_board) == test.NORMAL_BOARD_STR
         assert str(self.rectangle_board) == self.rectangle_board_str
 
     def test_get_token(self):
-        for x in range(8):
-            for y in range(8):
-                assert self.normal_board.get_token(x, y) == 1
+        """Board.get_token should return the value of the token or throw a 
+        pre-defined error if the toke is out of range.
+
+        """
+        for i in range(8):
+            for j in range(8):
+                assert self.normal_board.get_token(i, j) == 1
 
         with pytest.raises(boards.BoardRangeError):
             self.normal_board.get_token(1, 10)
 
     def test_remove_token(self):
+        """Board.remove_token should change the value of the token from 1 to
+        zero, throwing an exception if either the token is out of range or 
+        already zero.
+
+        """
         self.normal_board.remove_token(0, 3)
         assert self.normal_board.get_token(0, 3) == 0
 
