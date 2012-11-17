@@ -74,12 +74,13 @@ class Game(object):
         else:
             stick_set[stick] -= 1
 
-    def move(self, token_1, token_2):
-        """Makes a move, removing token_1 and token_2 from the board, raising
-        an illegal move error if the player to move doesn't have the
-        appropriate stick.
+    def move(self, move_tuple):
+        """Makes a move, removing two tokens from the board, raising an illegal
+        move error if the player to move doesn't have the appropriate stick. 
+        Move_tuple is a tuple of two pairs of coordinates.
 
         """
+        token_1, token_2 = move_tuple
         stick = find_stick(token_1, token_2)
         self.remove_stick(stick)
 
@@ -106,7 +107,7 @@ class Game(object):
         """
         tokens = [x for x in self.board.board if self.board.board[x]]
         all_moves = combinations(tokens, 2)
-        return ((x, y) for x, y in list(all_moves)
+        return ((x, y) for x, y in all_moves
                 if find_stick(x, y) in self.sticks_to_move())
 
     def winner(self):
@@ -122,7 +123,6 @@ class Game(object):
                 return "blue"
             else:
                 return "red"
-
 
 
 def find_stick(token_1, token_2):

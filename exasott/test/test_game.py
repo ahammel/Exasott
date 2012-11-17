@@ -63,7 +63,7 @@ class TestGameMethods(GameTestSetup):
                                          "*Red  {01: 1, 11: 5, 12: 5, 13: 5}\n"
                                          " Blue {01: 1, 11: 5, 12: 5, 13: 5}")
 
-        self.minimum_game.move((0, 0), (1, 1))
+        self.minimum_game.move(((0, 0), (1, 1)))
 
         assert str(self.minimum_game) == (" AB\n"
                                           "1XO\n"
@@ -79,7 +79,7 @@ class TestGameMethods(GameTestSetup):
         unavailable. The player to move should then be toggled.
 
         """
-        self.standard_game.move((0, 0), (0, 1))
+        self.standard_game.move(((0, 0), (0, 1)))
         assert not self.standard_game.board.get_token(0, 0)
         assert not self.standard_game.board.get_token(0, 1)
         assert not self.standard_game.red_to_move
@@ -87,18 +87,18 @@ class TestGameMethods(GameTestSetup):
         assert self.standard_game.b_sticks == self.standard_sticks
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((0, 0), (0, 1))
+            self.standard_game.move(((0, 0), (0, 1)))
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((2, 2), (0, 10))
+            self.standard_game.move(((2, 2), (0, 10)))
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((2, 2), (4, 4))
+            self.standard_game.move(((2, 2), (4, 4)))
 
-        self.standard_game.move((2, 2), (3, 3))
+        self.standard_game.move(((2, 2), (3, 3)))
 
         with pytest.raises(games.IllegalMoveError):
-            self.standard_game.move((6, 6), (6, 7))
+            self.standard_game.move(((6, 6), (6, 7)))
 
     def test_legal_moves(self):
         """Game.legal_moves() should return a generator consisting of all the
@@ -123,6 +123,6 @@ class TestGameMethods(GameTestSetup):
         assert self.six_game.winner() == None
         assert self.minimum_game.winner() == None
 
-        self.minimum_game.move((0, 1), (1, 0))
+        self.minimum_game.move(((0, 1), (1, 0)))
 
         assert self.minimum_game.winner() == "blue"
