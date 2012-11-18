@@ -109,8 +109,18 @@ class TestGameMethods(GameTestSetup):
 
         assert set(self.six_game.legal_moves()) == set([((0, 0), (1, 1)),
                                                         ((0, 1), (1, 0)),
-                                                        ((1, 0), (2, 1)),
+                                                        ((2, 1), (1, 0)),
                                                         ((2, 0), (1, 1))])
+
+    def test_is_legal_move(self):
+        assert self.minimum_game.is_legal_move(((0, 1), (1, 0)))
+        assert self.minimum_game.is_legal_move(((1, 0), (0, 1)))
+        assert not self.minimum_game.is_legal_move("banana")
+
+        for move in self.six_game.legal_moves():
+            assert self.six_game.is_legal_move(move)
+
+        assert not self.six_game.is_legal_move(((0, 0), (0, 0)))
 
     def test_winner(self):
         """The game is won when there are no legal moves remaining. Therefore,

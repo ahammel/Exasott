@@ -124,6 +124,17 @@ class Game(object):
             else:
                 return "red"
 
+    def is_legal_move(self, move):
+        """Returns true if the supplied move is legal.
+        
+        """
+        try:
+            required_stick = find_stick(move[0], move[1])
+        except ValueError:
+            return False
+        else:
+            return required_stick in self.sticks_to_move()
+
 
 def find_stick(token_1, token_2):
     """Returns the stick needed to make a move from token_1 to token_2.
