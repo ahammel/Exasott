@@ -20,3 +20,9 @@ class TestInteractiveFunctions(object):
 
         with pytest.raises(interactive.InvalidMove):
             interactive.alpha_move("1234")
+
+        with pytest.raises(interactive.InvalidMove):
+            interactive.alpha_move("ab1c2")
+
+        with pytest.raises(interactive.InvalidMove):
+            interactive.alpha_move("banana1orange2")

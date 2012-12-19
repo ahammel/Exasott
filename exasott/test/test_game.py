@@ -105,12 +105,17 @@ class TestGameMethods(GameTestSetup):
         legal moves in the present game state.
 
         """
-        assert list(self.minimum_game.legal_moves()) == [((0, 1), (1, 0))]
+        assert list(self.minimum_game.legal_moves()) == [((0, 1), (1, 0))] or \
+               list(self.minimum_game.legal_moves()) == [((1, 0), (0, 1))]
 
-        assert set(self.six_game.legal_moves()) == set([((0, 0), (1, 1)),
-                                                        ((0, 1), (1, 0)),
-                                                        ((2, 1), (1, 0)),
-                                                        ((2, 0), (1, 1))])
+        legal_moves_six_game = set([((0, 0), (1, 1)), ((0, 1), (1, 0)),
+                                    ((1, 0), (2, 1)), ((1, 1), (2, 0))])
+
+        ordered_legal_moves = set(tuple(sorted(move)) for move in 
+                                  self.six_game.legal_moves())
+
+        assert legal_moves_six_game == ordered_legal_moves
+
 
     def test_is_legal_move(self):
         assert self.minimum_game.is_legal_move(((0, 1), (1, 0)))
