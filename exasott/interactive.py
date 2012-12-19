@@ -24,11 +24,12 @@ def alpha_move(move_string):
     """Converts an alphanumeric string into an exasott move.
     
     """
-    token_string = move_string.strip().upper()
-    raw_tokens = re.findall(r'(\D)(\d+)', token_string)
-    if not raw_tokens:
-        raise InvalidMove(token_string)
+    token_string = re.sub(r'\s', '', move_string).upper() # strip whitespace
+                                                          # and make upper
+    if not re.match(r"^([a-zA-Z]\d+){2}$", token_string):
+        raise InvalidMove(move_string)
 
+    raw_tokens = re.findall(r'([a-zA-Z])(\d+)', token_string)
     try:
         tokens = [(TOKEN_LETTERS[a], TOKEN_NUMBERS[b]) for a, b in raw_tokens]
     except KeyError:
