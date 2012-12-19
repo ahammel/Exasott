@@ -5,7 +5,7 @@ setup(
     version='0.1.0',
     author='Alex Hammel',
     author_email='ahammel87@gmail.com',
-    packages=[],
+    packages=['exasott'],
     scripts=[],
     url='http://pypi.python.org/pypi/Exasott/',
     license='LICENSE.txt',
